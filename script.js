@@ -1,5 +1,7 @@
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+    
     // Initialize the page
     initTestimonials();
     setupMobileMenu();
@@ -64,6 +66,7 @@ function setupFormValidation() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Form submission started');
             
             // Basic validation
             const name = document.getElementById('name').value;
@@ -91,6 +94,8 @@ function setupFormValidation() {
                 message: message
             };
             
+            console.log('Form data collected:', formData);
+            
             // Show loading state
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
@@ -100,11 +105,12 @@ function setupFormValidation() {
             // Send email using EmailJS
             sendEmail(formData)
                 .then(function(response) {
+                    console.log('Email sent successfully:', response);
                     showStatus('Thank you for your message. We will get back to you soon!', 'success');
                     contactForm.reset();
                 }, function(error) {
+                    console.error('Email sending failed:', error);
                     showStatus('There was an error sending your message. Please try again.', 'error');
-                    console.error('EmailJS Error:', error);
                 })
                 .finally(() => {
                     submitBtn.textContent = originalText;
